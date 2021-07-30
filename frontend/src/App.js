@@ -2,7 +2,7 @@ import React from 'react';
 import scriptLoader from 'react-async-script-loader';
 import axios from 'axios';
 
-const CURRENCY = 'eur';
+const CURRENCY = 'cad';
 
 const toCent = amount => amount * 100;
 
@@ -11,7 +11,7 @@ const StripeForm = ({ isScriptLoaded, isScriptLoadSucceed }) => {
 
   React.useEffect(() => {
     if (isScriptLoaded && isScriptLoadSucceed) {
-      setStripe(window.Stripe('YOUR_STRIPE_PUBLIC_KEY'));
+      setStripe(window.Stripe('pk_test_51JIuyEDqBUsC4lJzgBirWlQRKXrxOFYAFX025Cx22KSfpLb3kfO9IrO362IQ4qllhZxyuSOVsBfdVi8NXCRjPOPB00ZlZeH01w'));
     }
   }, [isScriptLoaded, isScriptLoadSucceed]);
 
@@ -21,21 +21,21 @@ const StripeForm = ({ isScriptLoaded, isScriptLoadSucceed }) => {
     event.preventDefault();
 
     const session = await axios.post(
-      'http://localhost:8888/payment/session-initiate',
+      'https://dashboard.choice.red/payment/session-initiate',
       {
-        customerEmail: 'example@gmail.com',
-        clientReferenceId:
-          'IDENTIFIER_TO_MAP_YOUR_CUSTOMER_TO_YOUR_PRODUCT_LATER',
+        customerEmail: 'dev@choice.marketing',
+        // clientReferenceId:
+        //   'IDENTIFIER_TO_MAP_YOUR_CUSTOMER_TO_YOUR_PRODUCT_LATER',
         lineItem: {
-          name: 'My Name',
-          description: 'My Description',
-          images: ['http://localhost:8888/static/product.jpg'],
+          name: 'Han MingYun',
+          description: 'Test Credit Card Payment',
+          // images: ['https://image.cnbcfm.com/api/v1/image/106187392-1571322289627gettyimages-1044704448.jpg?v=1571322316&w=740&h=416'],
           amount: toCent(amount),
           currency: CURRENCY,
           quantity: 1,
         },
-        successUrl: 'http://localhost:8888/success',
-        cancelUrl: 'http://localhost:8888/cancel',
+        successUrl: 'https://dashboard.choice.red/success',
+        cancelUrl: 'https://dashboard.choice.red/cancel',
       }
     );
 
@@ -57,7 +57,7 @@ const StripeForm = ({ isScriptLoaded, isScriptLoadSucceed }) => {
         value={amount}
         onChange={event => setAmount(event.target.value)}
       />
-      Euro
+      CAD
       <button type="submit">Buy</button>
     </form>
   );
